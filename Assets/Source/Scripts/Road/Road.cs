@@ -7,7 +7,7 @@ public class Road : MonoBehaviour
 
     private void Update()
     {
-        //DestroyRoad();
+        DestroyRoad();
     }
 
     private void FixedUpdate()
@@ -22,7 +22,7 @@ public class Road : MonoBehaviour
 
     private void DestroyRoad()
     {
-        if (transform.position.z < -30f)
+        if (transform.position.z < -80f)
         {
             Destroy(gameObject);
         }
