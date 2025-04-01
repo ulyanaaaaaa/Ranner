@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GoLeft()
     {
-        if (transform.position.x > -1)
+        if (transform.position.x > -0.8f)
         {
             transform.position += new Vector3(-1, 0, 0); 
         }
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GoRight()
     {
-        if (transform.position.x < 1) 
+        if (transform.position.x < 0.8f) 
         {
             transform.position += new Vector3(1, 0, 0);
         }

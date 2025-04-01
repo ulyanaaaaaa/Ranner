@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerTrigger))]
 public class PlayerWallet : MonoBehaviour
 {
-    private int _currentCoins;
+    public int CurrentCoins { get; private set; }
     private PlayerTrigger _playerTrigger;
     
     public Action<int> OnCoinsChanged; 
@@ -26,7 +26,7 @@ public class PlayerWallet : MonoBehaviour
 
     private void AddCoin(Coin coin)
     {
-        _currentCoins += coin.Count;
-        OnCoinsChanged?.Invoke(_currentCoins); 
+        CurrentCoins += coin.Count;
+        OnCoinsChanged?.Invoke(CurrentCoins); 
     }
 }

@@ -1,10 +1,17 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class CoinsCount : MonoBehaviour
 {
-    [SerializeField] private PlayerWallet _playerWallet; 
+    private PlayerWallet _playerWallet; 
     private TextMeshProUGUI _count;
+
+    public void Setup(PlayerWallet playerWallet)
+    {
+        _playerWallet = playerWallet;
+        _playerWallet.OnCoinsChanged += UpdateCount; 
+    }
 
     private void Awake()
     {
@@ -13,7 +20,7 @@ public class CoinsCount : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerWallet.OnCoinsChanged += UpdateCount; 
+        UpdateCount(0);
     }
 
     private void OnDisable()
