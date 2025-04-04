@@ -205,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1938a5d0a2f21499c23d398217800e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roadSpawner: {fileID: 0}
 --- !u!54 &4655751466827472730
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -257,6 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15092a99a5e2bc48a4723d213c06a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isJumping: 0
+  jumpForce: 5
 --- !u!1 &440097614003295840
 GameObject:
   m_ObjectHideFlags: 0

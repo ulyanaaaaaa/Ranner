@@ -5,9 +5,10 @@ public class SwipeDetection : MonoBehaviour
 {
     public Action OnRightSwipe;
     public Action OnLeftSwipe;
+    public Action OnUpSwipe; 
     private Vector2 _touchStartPos;
     private Vector2 _touchEndPos;
-    [SerializeField] private float swipeDistanceThreshold; 
+    [SerializeField] private float swipeDistanceThreshold;
 
     private void Update()
     {
@@ -32,16 +33,27 @@ public class SwipeDetection : MonoBehaviour
     private void DetectSwipe()
     {
         float swipeDistanceX = _touchEndPos.x - _touchStartPos.x;
+        float swipeDistanceY = _touchEndPos.y - _touchStartPos.y;
 
-        if (Mathf.Abs(swipeDistanceX) > swipeDistanceThreshold)
+        if (Mathf.Abs(swipeDistanceX) > swipeDistanceThreshold || Mathf.Abs(swipeDistanceY) > swipeDistanceThreshold)
         {
-            if (swipeDistanceX > 0)
+            if (Mathf.Abs(swipeDistanceX) > Mathf.Abs(swipeDistanceY)) 
             {
-                OnRightSwipe?.Invoke();
+                if (swipeDistanceX > 0)
+                {
+                    OnRightSwipe?.Invoke();
+                }
+                else
+                {
+                    OnLeftSwipe?.Invoke();
+                }
             }
             else
             {
-                OnLeftSwipe?.Invoke();
+                if (swipeDistanceY > 0)
+                {
+                    OnUpSwipe?.Invoke();
+                }
             }
         }
     }

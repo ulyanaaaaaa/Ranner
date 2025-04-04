@@ -25,7 +25,8 @@ public class CoinsCount : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerWallet.OnCoinsChanged -= UpdateCount; 
+        if (_playerWallet)
+            _playerWallet.OnCoinsChanged -= UpdateCount;
     }
 
     private void UpdateCount(int totalCoins)
