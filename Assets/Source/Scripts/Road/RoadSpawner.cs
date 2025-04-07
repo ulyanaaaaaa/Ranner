@@ -4,32 +4,37 @@ using UnityEngine;
 
 public class RoadSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _roads;
-    [SerializeField] private float roadsLength;
+    [SerializeField] private List<GameObject> _roads; 
+    [SerializeField] private float roadLength; 
     [SerializeField] private float startSpeed;
     [SerializeField] private float speedIncreaseAmount; 
-    [SerializeField] private float increaseInterval; 
+    [SerializeField] private float increaseInterval;
 
     private float _speed;
-    private Road _road;
+    private Queue<GameObject> _activeRoads = new Queue<GameObject>();
 
-    private void Start()
+    private void Awake()
     {
         _speed = startSpeed;
         
-        _road = Instantiate(_roads[Random.Range(0, _roads.Count)], transform.position, Quaternion.identity)
-            .GetComponent<Road>()
-            .SetupSpeed(startSpeed);
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 position = new Vector3(0, 0, i * roadLength);
+            GameObject road = Instantiate(_roads[Random.Range(0, _roads.Count)], position, Quaternion.identity);
+            road.GetComponent<Road>().SetupSpeed(_speed);
+            _activeRoads.Enqueue(road);
+        }
 
         StartCoroutine(IncreaseSpeedOverTime());
     }
 
-    public void Spawn()
+    public void SpawnRoad()
     {
-        Vector3 position = new Vector3(0, 0, roadsLength);
-        _road = Instantiate(_roads[Random.Range(0, _roads.Count)], position, Quaternion.identity)
-            .GetComponent<Road>()
-            .SetupSpeed(_speed);
+        Vector3 newPosition =  _activeRoads.ToArray()[_activeRoads.Count - 1].transform.position + new Vector3(0, 0, roadLength);
+        GameObject newRoad = Instantiate(_roads[Random.Range(0, _roads.Count)], newPosition, Quaternion.identity);
+        newRoad.GetComponent<Road>().SetupSpeed(_speed);
+
+        _activeRoads.Enqueue(newRoad);
     }
 
     private IEnumerator IncreaseSpeedOverTime()
@@ -38,7 +43,11 @@ public class RoadSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(increaseInterval);
             _speed += speedIncreaseAmount;
-            _road.SetupSpeed(startSpeed); 
+            
+            foreach (GameObject road in _activeRoads)
+            {
+                road.GetComponent<Road>().SetupSpeed(_speed);
+            }
         }
     }
 }

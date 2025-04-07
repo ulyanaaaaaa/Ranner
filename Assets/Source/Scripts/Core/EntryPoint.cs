@@ -6,6 +6,8 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private CoinsCount coinsCount;
     [SerializeField] private AudioManager audioManager;
+    [SerializeField] private GameObject _moneySlider;
+    [SerializeField] private GameObject _lifeSlider;
 
     private PlayerTrigger _playerPrefab;
     private RoadSpawner _roadSpawnerPrefab;
@@ -48,7 +50,8 @@ public class EntryPoint : MonoBehaviour
         _roadSpawnerPrefab = Resources.Load<RoadSpawner>("RoadSpawner");
 
         _roadSpawner = Instantiate(_roadSpawnerPrefab);
-        _player = Instantiate(_playerPrefab).Setup(_roadSpawner, audioManager);
+        _player = Instantiate(_playerPrefab).Setup(_roadSpawner, audioManager,_lifeSlider);
+        _player.GetComponent<PlayerWallet>().Setup(_moneySlider);
         
         coinsCount.Setup(_player.GetComponent<PlayerWallet>());
         _player.OnDie += StopGame;

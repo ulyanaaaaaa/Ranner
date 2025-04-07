@@ -10,11 +10,6 @@ public class Road : MonoBehaviour
         return this;
     }
 
-    private void Update()
-    {
-        DestroyRoad();
-    }
-
     private void FixedUpdate()
     {
         Move();
@@ -23,13 +18,5 @@ public class Road : MonoBehaviour
     private void Move()
     {
         transform.Translate(-transform.forward * _speed * Time.deltaTime);
-    }
-
-    private void DestroyRoad()
-    {
-        if (transform.position.z < -80f)
-        {
-            Destroy(gameObject);
-        }
     }
 }

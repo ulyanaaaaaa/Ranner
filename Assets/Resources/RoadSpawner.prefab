@@ -48,7 +48,7 @@ MonoBehaviour:
   - {fileID: 4139074270694180855, guid: b82bf911257b2ef4498b93de9b676d29, type: 3}
   - {fileID: 4139074270694180855, guid: b82bf911257b2ef4498b93de9b676d29, type: 3}
   - {fileID: 4139074270694180855, guid: b82bf911257b2ef4498b93de9b676d29, type: 3}
-  roadsLength: 99
+  roadLength: 100
   startSpeed: 10
   speedIncreaseAmount: 10
   increaseInterval: 10

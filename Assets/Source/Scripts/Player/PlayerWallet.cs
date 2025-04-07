@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerTrigger))]
 public class PlayerWallet : MonoBehaviour
@@ -10,6 +11,14 @@ public class PlayerWallet : MonoBehaviour
     
     public Action<int> OnCoinsChanged;
     private bool _isMoneyBonus;
+    private Coroutine _bonusTick;
+    private GameObject _slider;
+
+    public PlayerWallet Setup(GameObject slider)
+    {
+        _slider = slider;
+        return this;
+    }
 
     private void Awake()
     {
@@ -40,23 +49,40 @@ public class PlayerWallet : MonoBehaviour
         OnCoinsChanged?.Invoke(CurrentCoins); 
     }
     
-    private void ActivateMoneyBonus(float time)
+    private void ActivateMoneyBonus(MoneyBonus moneyBonus)
     {
+        if (_isMoneyBonus)
+            StopCoroutine(_bonusTick);
+        
         _isMoneyBonus = true;
-        StartCoroutine(DeactivateMoneyBonus(time));
+        _bonusTick = StartCoroutine(DeactivateLifeBonus(moneyBonus));
     }
 
-    private IEnumerator DeactivateMoneyBonus(float time)
+    private IEnumerator DeactivateLifeBonus(MoneyBonus moneyBonus)
     {
-        yield return new WaitForSeconds(time);
+        _playerTrigger.OnDie += () => {  _slider.SetActive(false); };
+        _slider.SetActive(true);
+        Image bar = _slider.GetComponentInChildren<Image>();
+        
+        float time = 0f;
+
+        while (time <= moneyBonus.Duration)
+        {
+            yield return new WaitForSeconds(0.01f);
+            time += 0.01f;
+            bar.fillAmount = (moneyBonus.Duration - time) / moneyBonus.Duration;
+        }
+        
         _isMoneyBonus = false;
+        _slider.gameObject.SetActive(false);
+        _playerTrigger.OnDie -= () => { _slider.gameObject.SetActive(false); };
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out MoneyBonus moneyBonus))
         {
-            ActivateMoneyBonus(moneyBonus.Time);
+            ActivateMoneyBonus(moneyBonus);
             Destroy(moneyBonus.gameObject);
         }
     }

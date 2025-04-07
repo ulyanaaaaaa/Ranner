@@ -13,4 +13,9 @@ public class StartButton : MonoBehaviour
             OnStart?.Invoke();
         });
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }

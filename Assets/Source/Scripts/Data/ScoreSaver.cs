@@ -54,10 +54,10 @@ public class ScoreSaver : MonoBehaviour
     private void TextAnimation()
     {
         _notificationText.gameObject.SetActive(true);
-        _notificationText.transform.localPosition = new Vector3(0, 50, 0);
-        _notificationText.transform.DOLocalMoveY(-50, 0.5f).SetEase(Ease.OutBounce).OnComplete(() =>
+        _notificationText.transform.localPosition = new Vector3(0, 100, 0);
+        _notificationText.transform.DOLocalMoveY(-250, 0.6f).SetEase(Ease.OutBounce).OnComplete(() =>
         {
-            _notificationText.transform.DOLocalMoveY(50, 0.5f).SetDelay(1f).OnComplete(() =>
+            _notificationText.transform.DOLocalMoveY(100, 0.5f).SetDelay(1f).OnComplete(() =>
             {
                 _notificationText.gameObject.SetActive(false);
             });
